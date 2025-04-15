@@ -1,15 +1,12 @@
-# -*- encoding: utf-8 -*-
-"""
-Copyright (c) 2019 - present AppSeed.us
-"""
+# run.py
+from app import create_app
+from app.models.user import db
 
-from api import app, db
+app = create_app()
 
 @app.shell_context_processor
 def make_shell_context():
-    return {"app": app,
-            "db": db
-            }
+    return {"app": app, "db": db}
 
 if __name__ == '__main__':
-    app.run(debug=True, host="0.0.0.0")
+    app.run(debug=True, host="0.0.0.0", port=5005)
