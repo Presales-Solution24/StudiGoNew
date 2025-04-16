@@ -2,6 +2,7 @@ from flask import Flask
 from flask_cors import CORS
 from app.config import BaseConfig
 from app.models import db
+from flask_migrate import Migrate
 
 # Blueprint imports
 from app.apis.auth_api import auth_bp
@@ -14,6 +15,8 @@ def create_app():
     
     db.init_app(app)
     CORS(app)
+    
+    Migrate(app, db)
 
     # Register API Blueprints
     app.register_blueprint(auth_bp)

@@ -1,27 +1,51 @@
 version: "3.8"
+
 services:
+  mysql_db:
+    image: mysql:8
+    container_name: mysql_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: studigo
+      MYSQL_USER: studigo_user
+      MYSQL_PASSWORD: studigo_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - db_network
+
   flask_api:
     container_name: flask_api
     restart: always
-    env_file: .env
     build: .
+    env_file: .env
+    depends_on:
+      - mysql_db
     networks:
       - db_network
       - web_network
+
   nginx:
     container_name: nginx
     restart: always
-    image: "nginx:latest"
+    image: nginx:latest
     ports:
       - "5000:5000"
     volumes:
       - ./nginx:/etc/nginx/conf.d
-    networks:
-      - web_network
     depends_on:
       - flask_api
+    networks:
+      - web_network
+
 networks:
   db_network:
     driver: bridge
   web_network:
     driver: bridge
+
+volumes:
+  mysql_data:

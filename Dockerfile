@@ -1,14 +1,20 @@
-FROM python:3.9
+# Dockerfile
+
+# Install dependencies
+FROM python:3.9-slim
+
+WORKDIR /app
 
 COPY . .
 
-# set environment variables
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
-
-# install python dependencies
-RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 
-# gunicorn
-CMD ["gunicorn", "--config", "gunicorn-cfg.py", "run:app"]
+# Copy script wait-for-it
+COPY wait-for-it.sh /wait-for-it.sh
+RUN chmod +x /wait-for-it.sh
+
+ENV FLASK_APP=run.py
+ENV FLASK_ENV=development
+
+# Jalankan dengan menunggu mysql_db:3306
+CMD ["/wait-for-it.sh", "mysql_db:3306", "--", "gunicorn", "--config", "gunicorn-cfg.py", "run:app"]

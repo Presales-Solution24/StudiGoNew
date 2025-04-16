@@ -17,7 +17,7 @@ class Users(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     username = db.Column(db.String(32), nullable=False)
     email = db.Column(db.String(64), nullable=True)
-    password = db.Column(db.Text())
+    password = db.Column(db.String(255))
     jwt_auth_active = db.Column(db.Boolean())
     date_joined = db.Column(db.DateTime(), default=datetime.utcnow)
 
@@ -74,7 +74,7 @@ class Users(db.Model):
 
 class JWTTokenBlocklist(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
-    jwt_token = db.Column(db.String(), nullable=False)
+    jwt_token = db.Column(db.String(255), nullable=False)
     created_at = db.Column(db.DateTime(), nullable=False)
 
     def __repr__(self):
