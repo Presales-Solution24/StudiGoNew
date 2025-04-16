@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 services:
   flask_api:
     container_name: flask_api
@@ -18,11 +18,10 @@ services:
       - ./nginx:/etc/nginx/conf.d
     networks:
       - web_network
-    depends_on: 
+    depends_on:
       - flask_api
 networks:
   db_network:
     driver: bridge
   web_network:
     driver: bridge
- 
