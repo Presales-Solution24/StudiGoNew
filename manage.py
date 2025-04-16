@@ -1,0 +1,14 @@
+# manage.py
+
+from flask.cli import FlaskGroup
+from app import create_app, db
+
+app = create_app()
+cli = FlaskGroup(app)
+
+@cli.shell_context_processor
+def make_shell_context():
+    return {"app": app, "db": db}
+
+if __name__ == "__main__":
+    cli()

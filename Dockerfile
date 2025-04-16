@@ -13,7 +13,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY wait-for-it.sh /wait-for-it.sh
 RUN chmod +x /wait-for-it.sh
 
-ENV FLASK_APP=run.py
+ENV FLASK_APP=manage.py
 ENV FLASK_ENV=development
 
 # Jalankan dengan menunggu mysql_db:3306
