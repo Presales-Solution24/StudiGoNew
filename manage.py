@@ -1,14 +1,15 @@
 # manage.py
-
-from flask.cli import FlaskGroup
-from app import create_app, db
+from flask_script import Manager
+from flask_migrate import Migrate, MigrateCommand
+from app import create_app
+from app.models import db
 
 app = create_app()
-cli = FlaskGroup(app)
+migrate = Migrate(app, db)
+manager = Manager(app)
 
-@cli.shell_context_processor
-def make_shell_context():
-    return {"app": app, "db": db}
+# Add db commands to manager
+manager.add_command('db', MigrateCommand)
 
-if __name__ == "__main__":
-    cli()
+if __name__ == '__main__':
+    manager.run()
